@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerasyncloadingexample.databinding.LargeItemCellBinding
 import com.example.recyclerasyncloadingexample.databinding.SmallItemCellBinding
 
-class RecyclerViewAsyncAdapter internal constructor(private val items: List<TestItem>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerViewAsyncAdapter internal constructor(
+    private val items: List<TestItem>,
+    private val listener: (TestItem) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             ViewTypes.SMALL.type -> SmallItemViewHolder(SmallItemCell(parent.context).apply { inflate() })
@@ -28,6 +30,7 @@ class RecyclerViewAsyncAdapter internal constructor(private val items: List<Test
         (holder.itemView as LargeItemCell).bindWhenInflated {
             items[position].let { item ->
                 holder.itemView.binding?.item = item
+                holder.itemView.setOnClickListener { listener(item) }
             }
         }
     }
@@ -39,6 +42,7 @@ class RecyclerViewAsyncAdapter internal constructor(private val items: List<Test
         (holder.itemView as SmallItemCell).bindWhenInflated {
             items[position].let { item ->
                 holder.itemView.binding?.item = item
+                holder.itemView.setOnClickListener { listener(item) }
             }
         }
     }

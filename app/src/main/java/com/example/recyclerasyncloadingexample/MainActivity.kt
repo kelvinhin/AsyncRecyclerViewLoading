@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,9 @@ class MainActivity : AppCompatActivity() {
             recyclerView.visibility = View.VISIBLE
             recyclerView.layoutManager = LinearLayoutManager(this)
 //        recyclerView.adapter = RecyclerViewAdapter(createTestItems())
-            recyclerView.adapter = RecyclerViewAsyncAdapter(createTestItems())
+            recyclerView.adapter = RecyclerViewAsyncAdapter(createTestItems()) { item ->
+                Snackbar.make(it, item.title, Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
